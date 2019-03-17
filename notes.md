@@ -10,7 +10,7 @@
   ```bash
   git log --follow -- <filepath>
   ```
-- Get short hash of changed commits:
+- Get short hash of changed commits for a file:
   ```bash
   git log --oneline --follow <filepath> | awk '{print $1}'
   ```
