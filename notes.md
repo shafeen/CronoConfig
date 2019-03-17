@@ -20,7 +20,7 @@
   ```
 - Show the an entire file for a specific commit (not just the diffs):
   ```bash
-  git show <sha>:<filepath>
+  git show <sha>:<filepath> | cat
   ```
 - Show the entile file for a 1 commit before a specific commit:
   ```bash
