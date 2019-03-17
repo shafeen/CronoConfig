@@ -22,7 +22,7 @@
   ```bash
   git show <sha>:<filepath> | cat
   ```
-- Show the entile file for a 1 commit before a specific commit:
+- Show the entire file for a 1 commit before a specific commit:
   ```bash
-  git show <sha>~1:<filepath>
+  git show <sha>~1:<filepath> | cat
   ```
