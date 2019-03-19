@@ -1,5 +1,6 @@
 # IntelliJ
 .idea/
+cronoconfig.data/
 
 # Logs
 logs

@@ -129,6 +129,39 @@ function listExistingTables() {
     console.log(tableNames);
 }
 
+/**
+ * @param {string} tablePath
+ * @return {boolean}
+ */
+function isTablePath(tablePath) {
+    return (tablePath.indexOf('.table') !== -1) &&
+        fs.existsSync(tablePath) &&
+        fs.lstatSync(tablePath).isDirectory() &&
+        (fs.readdirSync(tablePath).indexOf('.tableconfig') !== -1);
+}
+
+/**
+ * @param {string} tableName
+ * @param {string} configName
+ * @param {Object} configDoc -- NOT NULL
+ */
+function createConfigInTable(tableName, configName, configDoc) {
+    const tablePath = `${FOLDERPATH}/${tableName}.table`;
+    if (!isTablePath(tablePath)) {
+        throw new Error(`No table exists in path "${tablePath}"`);
+    }
+    if (!configDoc) {
+        throw new Error('Attempting to write invalid config document!');
+    }
+    const configPath = `${tablePath}/${configName}.bson`;
+    if (fs.existsSync(configPath)) {
+        console.log(`Config document "${tableName}.${configName}" already exists! Replacing ` +
+            JSON.stringify(bson.deserialize(fs.readFileSync(configPath)))
+        );
+    }
+    fs.writeFileSync(configPath, bson.serialize(configDoc));
+}
+
 // testDiff(
 //  "a: orange\nb: beep boop\nc: blah blah",
 //  "a: one\nb: beep boop\npeep boob blah\nc: blah blah"
@@ -140,3 +173,11 @@ testSimpleGit();
         tableName => createTable(tableName)
     );
 listExistingTables();
+createConfigInTable(
+    'prototype_settings',
+    'testconfig',
+    {
+        name: "john doe",
+        created: new Date()
+    }
+);
